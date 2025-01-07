@@ -56,12 +56,12 @@ public class Booking {
     public String toString (){
                 return "Booking{" +
                 "id=" + id +
-                ", checkInDate=" + checkInTime +
-                ", checkOutDate=" + checkOutTime +
-                ", numOfAdults=" + numAdults +
-                ", numOfChildren=" + numChildren +
-                ", totalNumOfGuest=" + getTotalGuest() +
-                ", bookingConfirmationCode='" + confirmationCode + '\'' +
+                ", checkInTime=" + checkInTime +
+                ", checkOutTime=" + checkOutTime +
+                ", numAdults=" + numAdults +
+                ", numChildren=" + numChildren +
+                ", totalGuests=" + getTotalGuest() +
+                ", confirmationCode='" + confirmationCode + '\'' +
                 '}';
     }
 }

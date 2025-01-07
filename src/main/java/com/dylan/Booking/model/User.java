@@ -25,8 +25,8 @@ public class User implements UserDetails {
     @NotNull(message = "name is required.")
     private String name;
 
-
     @NotNull(message = "email is required.")
+    @Column(unique = true)
     private String email;
 
     @NotNull(message = "password is required.")
@@ -78,6 +78,9 @@ public class User implements UserDetails {
         return true;
     }
 
-
+    @Override
+    public String getPassword() {
+        return password;
+    }
 
 }

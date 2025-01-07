@@ -1,5 +1,6 @@
 package com.dylan.Booking.model;
 
+import com.dylan.Booking.enums.RoomType;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -15,7 +16,7 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    private String type;
+    private RoomType type;
     private BigDecimal price;
     private String imageUrl;
     private String description;
@@ -27,10 +28,10 @@ public class Room {
     public String toString(){
                 return "Room{" +
                 "id=" + id +
-                ", roomType='" + type + '\'' +
-                ", roomPrice=" + price +
-                ", roomPhotoUrl='" + imageUrl + '\'' +
-                ", roomDescription='" + description + '\'' +
+                ", type='" + type + '\'' +
+                ", price=" + price +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 
