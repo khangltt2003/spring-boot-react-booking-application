@@ -50,11 +50,11 @@ public class BookingService implements IBookingService {
             BookingDTO savedBookingDTO = Utils.mapBookingEntityToBookingDTOPlusBookedRooms(savedBooking, true);
             response.setBooking(savedBookingDTO);
             response.setMessage("success");
-            response.setStatusCode(200);
+            response.setStatusCode(201);
         }
         catch (MyException e){
             response.setMessage(e.getMessage());
-            response.setStatusCode(401);
+            response.setStatusCode(400);
         }
         catch (Exception e) {
             response.setMessage("internal server error " + e.getMessage());
@@ -76,7 +76,7 @@ public class BookingService implements IBookingService {
         }
         catch (MyException e){
             response.setMessage(e.getMessage());
-            response.setStatusCode(401);
+            response.setStatusCode(404);
         }
         catch (Exception e) {
             response.setMessage("internal server error " + e.getMessage());
@@ -115,7 +115,7 @@ public class BookingService implements IBookingService {
         }
         catch (MyException e){
             response.setMessage(e.getMessage());
-            response.setStatusCode(401);
+            response.setStatusCode(404);
         }
         catch (Exception e) {
             response.setMessage("internal server error " + e.getMessage());
@@ -134,10 +134,6 @@ public class BookingService implements IBookingService {
             response.setStatusCode(200);
             response.setMessage("success");
             response.setBookings(bookingsDTO);
-        }
-        catch (MyException e){
-            response.setMessage(e.getMessage());
-            response.setStatusCode(401);
         }
         catch (Exception e) {
             response.setMessage("internal server error " + e.getMessage());
@@ -158,12 +154,12 @@ public class BookingService implements IBookingService {
             }
 
             bookingRepository.deleteById(bookingId);
-            response.setStatusCode(200);
+            response.setStatusCode(204);
             response.setMessage("deleted booking " + bookingId );
         }
         catch (MyException e){
             response.setMessage(e.getMessage());
-            response.setStatusCode(401);
+            response.setStatusCode(404);
         }
         catch (Exception e) {
             response.setMessage("internal server error " + e.getMessage());

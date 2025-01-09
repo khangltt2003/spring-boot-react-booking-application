@@ -44,7 +44,7 @@ public class UserService implements IUserService {
             response.setStatusCode(200);
             response.setMessage("success");
         } catch (Exception e) {
-            response.setStatusCode(400);
+            response.setStatusCode(404);
             response.setMessage("internal server error " + e.getMessage());
         }
         return response;
@@ -100,7 +100,7 @@ public class UserService implements IUserService {
         }
 
         catch (MyException e){
-            response.setStatusCode(401);
+            response.setStatusCode(400);
             response.setMessage(e.getMessage());
         }
 
@@ -124,7 +124,7 @@ public class UserService implements IUserService {
             response.setMessage("success");
         }
         catch (MyException e){
-            response.setStatusCode(401);
+            response.setStatusCode(404);
             response.setMessage(e.getMessage());
         }
         catch (Exception e) {
@@ -169,7 +169,7 @@ public class UserService implements IUserService {
         }
         catch (MyException e ){
             response.setMessage(e.getMessage());
-            response.setStatusCode(401);
+            response.setStatusCode(404);
         }
         catch (Exception e) {
             response.setStatusCode(500);
@@ -188,7 +188,7 @@ public class UserService implements IUserService {
             response.setStatusCode(200);
             response.setMessage("user with id " + userId + " is deleted");
         } catch (MyException e) {
-            response.setStatusCode(401);
+            response.setStatusCode(404);
             response.setMessage(e.getMessage());
         }
         catch (Exception e){
