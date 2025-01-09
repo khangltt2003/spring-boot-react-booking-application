@@ -12,9 +12,11 @@ import com.dylan.Booking.repository.UserRepository;
 import com.dylan.Booking.service.interfac.IBookingService;
 import com.dylan.Booking.utils.Utils;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class BookingService implements IBookingService {
     private final UserRepository userRepository;
     private final BookingRepository bookingRepository;
@@ -142,7 +144,6 @@ public class BookingService implements IBookingService {
 
         return response;
     }
-
 
 
     @Override

@@ -10,13 +10,14 @@ import com.dylan.Booking.service.AwsS3Service;
 import com.dylan.Booking.service.interfac.IRoomService;
 import com.dylan.Booking.utils.Utils;
 
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
+@Service
 public class RoomService implements IRoomService {
 
     private final RoomRepository roomRepository;
@@ -143,7 +144,6 @@ public class RoomService implements IRoomService {
             response.setMessage("success");
             response.setStatusCode(201);
             response.setRoom(savedRoomDTO);
-
         }
         catch (MyException e){
             response.setStatusCode(404);
