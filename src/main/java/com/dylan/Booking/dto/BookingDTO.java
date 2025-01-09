@@ -14,6 +14,8 @@ public class BookingDTO {
     private String confirmationCode;
     private int numAdults;
     private int numChildren;
+    private UserDTO user;
+    private RoomDTO room;
 
     public String getId() {
         return id;
@@ -79,6 +81,5 @@ public class BookingDTO {
         this.room = room;
     }
 
-    private UserDTO user;
-    private RoomDTO room;
+
 }

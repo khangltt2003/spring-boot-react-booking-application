@@ -45,7 +45,7 @@ public class UserService implements IUserService {
             response.setMessage("success");
         } catch (Exception e) {
             response.setStatusCode(400);
-            response.setMessage("internal server error" + e.getMessage());
+            response.setMessage("internal server error " + e.getMessage());
         }
         return response;
     }
@@ -76,7 +76,7 @@ public class UserService implements IUserService {
         }
         catch (Exception e) {
             response.setStatusCode(500);
-            response.setMessage("internal server error" + e.getMessage());
+            response.setMessage("internal server error " + e.getMessage());
         }
 
         return response;
@@ -89,7 +89,7 @@ public class UserService implements IUserService {
 
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-            var user = userRepository.findByEmail(email).orElseThrow(()->new MyException("cannot find user"));
+            var user = userRepository.findByEmail(email).orElseThrow(()->new MyException("cannot find user " + email ));
 
             var token = jwtService.generateToken(user);
             response.setStatusCode(200);
@@ -106,7 +106,7 @@ public class UserService implements IUserService {
 
         catch (Exception e) {
             response.setStatusCode(500);
-            response.setMessage("internal server error" + e.getMessage());
+            response.setMessage("internal server error " + e.getMessage());
         }
 
         return response;
@@ -117,7 +117,7 @@ public class UserService implements IUserService {
         Response response = new Response();
 
         try {
-            User user = userRepository.findByEmail(email).orElseThrow(()->new MyException("cannot find user"));
+            User user = userRepository.findByEmail(email).orElseThrow(()->new MyException("cannot find user " + email));
             UserDTO userDTO = Utils.mapUserEntityToUserDTO(user);
             response.setUser(userDTO);
             response.setStatusCode(200);
@@ -129,7 +129,7 @@ public class UserService implements IUserService {
         }
         catch (Exception e) {
             response.setStatusCode(500);
-            response.setMessage("internal server error" + e.getMessage());
+            response.setMessage("internal server error " + e.getMessage());
         }
 
         return response;
@@ -138,9 +138,8 @@ public class UserService implements IUserService {
     @Override
     public Response getUserById(String userId) {
         Response response = new Response();
-
         try {
-            User user = userRepository.findById(userId).orElseThrow(()->new MyException("cannot find user"));
+            User user = userRepository.findById(userId).orElseThrow(()->new MyException("cannot find user " + userId));
             UserDTO userDTO = Utils.mapUserEntityToUserDTO(user);
             response.setUser(userDTO);
             response.setStatusCode(200);
@@ -152,7 +151,7 @@ public class UserService implements IUserService {
         }
         catch (Exception e) {
             response.setStatusCode(500);
-            response.setMessage("internal server error" + e.getMessage());
+            response.setMessage("internal server error " + e.getMessage());
         }
 
         return response;
@@ -161,9 +160,8 @@ public class UserService implements IUserService {
     @Override
     public Response getUserBookings(String userId) {
         Response response = new Response();
-
         try {
-            User user = userRepository.findById(userId).orElseThrow(()-> new MyException("cannot find user"));
+            User user = userRepository.findById(userId).orElseThrow(()-> new MyException("cannot find user " + userId));
             UserDTO userDTO = Utils.mapUserEntityToUserDTOPlusUserBookingsAndRoom(user);
             response.setMessage("success");
             response.setStatusCode(200);
@@ -175,7 +173,7 @@ public class UserService implements IUserService {
         }
         catch (Exception e) {
             response.setStatusCode(500);
-            response.setMessage("internal server error" + e.getMessage());
+            response.setMessage("internal server error " + e.getMessage());
         }
 
         return response;
@@ -185,17 +183,17 @@ public class UserService implements IUserService {
     public Response deleteUser(String userId) {
         Response response = new Response();
         try {
-            userRepository.findById(userId).orElseThrow(()->new MyException("user not found"));
+            userRepository.findById(userId).orElseThrow(()->new MyException("cannot find user " + userId));
             userRepository.deleteById(userId);
             response.setStatusCode(200);
             response.setMessage("user with id " + userId + " is deleted");
         } catch (MyException e) {
             response.setStatusCode(401);
-            response.setMessage("cannot delete user" + userId);
+            response.setMessage(e.getMessage());
         }
         catch (Exception e){
             response.setStatusCode(500);
-            response.setMessage("internal server error" + e.getMessage());
+            response.setMessage("internal server error " + e.getMessage());
         }
 
         return response;

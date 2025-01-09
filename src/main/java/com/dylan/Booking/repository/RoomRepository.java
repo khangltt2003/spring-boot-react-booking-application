@@ -30,7 +30,8 @@ public interface RoomRepository extends JpaRepository<Room, String> {
 
     @Query("select r from Room  as r where r.id not in (select bk.room.id from Booking as bk " +
             "where (:checkInTime >= bk.checkInTime and  :checkInTime <= bk.checkOutTime) " +
-            "and (:checkOutTime >= bk.checkInTime and :checkOutTime <= bk.checkOutTime))")
+            "or (:checkOutTime >= bk.checkInTime and :checkOutTime <= bk.checkOutTime)" +
+            "or (:checkInTime <= bk.checkInTime and :checkOutTiem >= bk.checkOutTime))")
     List<Room> findAvailableRoomsByTime(LocalDateTime checkInTime, LocalDateTime checkOutTime);
 
 
@@ -38,7 +39,8 @@ public interface RoomRepository extends JpaRepository<Room, String> {
             "where r.type  = :type " +
             "and r.id not in (select bk.room.id from Booking as bk " +
             "where (:checkInTime >= bk.checkInTime and :checkInTime <= bk.checkOutTime ) " +
-            "or (:checkOutTime >= bk.checkInTime and :checkOutTime <= bk.checkOutTime))")
+            "or (:checkOutTime >= bk.checkInTime and :checkOutTime <= bk.checkOutTime)" +
+            "or (:checkInTime <= bk.checkInTime and :checkOutTiem >= bk.checkOutTime))")
     List<Room> findAvailableRoomsByDatesAndTypes(RoomType type, LocalDateTime checkInTime, LocalDateTime checkOutTime);
 
 }
