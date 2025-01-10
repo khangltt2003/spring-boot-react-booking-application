@@ -37,6 +37,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(401).body(response);
     }
 
+
     @ExceptionHandler(MyException.class)
         public ResponseEntity<Response> handleMyException(MyException ex) {
         Response response = new Response();
