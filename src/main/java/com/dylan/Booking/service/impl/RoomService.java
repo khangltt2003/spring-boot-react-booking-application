@@ -95,13 +95,13 @@ public class RoomService implements IRoomService {
         Response response = new Response();
         Room room = roomRepository.findById(roomId).orElseThrow(()-> new MyException("cannot find room "+ roomId, 404));
 
-        if(!photo.isEmpty() || photo != null){
+        if(photo != null){
             String imageUrl = awsS3Service.uploadImageToS3(photo);
             room.setImageUrl(imageUrl);
         }
 
         if(type != null) room.setType(type);
-        if(price != null)room.setPrice(price);
+        if(price != null )room.setPrice(price);
         if(description != null) room.setDescription(description);
 
         Room savedRoom = roomRepository.save(room);

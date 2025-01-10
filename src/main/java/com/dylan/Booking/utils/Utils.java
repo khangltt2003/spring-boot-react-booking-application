@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class Utils {
 
-    private static final String ALPHANUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    private static final String ALPHANUMERIC_STRING = "abcdefghijklmnopqrstuvwsyz0123456789";
     private static final SecureRandom secureRandom = new SecureRandom();
 
     public static String generateRandomConfirmationCode(int length) {
@@ -55,6 +55,7 @@ public class Utils {
         bookingDTO.setNumAdults(booking.getNumAdults());
         bookingDTO.setNumChildren(booking.getNumChildren());
         bookingDTO.setConfirmationCode(booking.getConfirmationCode());
+        bookingDTO.setRoom(mapRoomEntityToRoomDTO(booking.getRoom()));
         return bookingDTO;
     }
 

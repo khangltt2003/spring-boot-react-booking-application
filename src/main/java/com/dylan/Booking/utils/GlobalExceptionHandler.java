@@ -27,6 +27,7 @@ public class GlobalExceptionHandler {
         response.setErrors(errors);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
+
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Response> handleAccessDeniedException(AccessDeniedException ex) {
         Response response = new Response();
@@ -36,7 +37,6 @@ public class GlobalExceptionHandler {
         response.setErrors(error);
         return ResponseEntity.status(401).body(response);
     }
-
 
     @ExceptionHandler(MyException.class)
         public ResponseEntity<Response> handleMyException(MyException ex) {

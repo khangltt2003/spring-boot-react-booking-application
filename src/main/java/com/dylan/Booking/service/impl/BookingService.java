@@ -11,6 +11,7 @@ import com.dylan.Booking.repository.RoomRepository;
 import com.dylan.Booking.repository.UserRepository;
 import com.dylan.Booking.service.interfac.IBookingService;
 import com.dylan.Booking.utils.Utils;
+import org.hibernate.annotations.processing.Find;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +46,7 @@ public class BookingService implements IBookingService {
 
         bookingRequest.setUser(user);
         bookingRequest.setRoom(room);
-        bookingRequest.setConfirmationCode(Utils.generateRandomConfirmationCode(12));
+        bookingRequest.setConfirmationCode(Utils.generateRandomConfirmationCode(24));
         Booking savedBooking = bookingRepository.save(bookingRequest);
 
         BookingDTO savedBookingDTO = Utils.mapBookingEntityToBookingDTOPlusBookedRooms(savedBooking, true);
@@ -60,7 +61,7 @@ public class BookingService implements IBookingService {
     public Response getBookingById(String bookingId) {
         Response response = new Response();
         Booking booking = bookingRepository.findById(bookingId).orElseThrow(()->new MyException("cannot find booking " + bookingId, 404));
-        BookingDTO bookingDTO = Utils.mapBookingEntityToBookingDTO(booking);
+        BookingDTO bookingDTO = Utils.mapBookingEntityToBookingDTOPlusBookedRooms(booking, true);
         response.setStatusCode(200);
         response.setMessage("success");
         response.setBooking(bookingDTO);
@@ -71,7 +72,9 @@ public class BookingService implements IBookingService {
     @Override
     public Response getBookingByUserId(String userId){
         Response response = new Response();
-        List<Booking> bookings = bookingRepository.findByUserId(userId);
+        User user = userRepository.findById(userId).orElseThrow(()-> new MyException("cannot find user " + userId, 400));
+
+        List<Booking> bookings = user.getBookings();
         List<BookingDTO> bookingsDTO = Utils.mapBookingListEntityToBookingListDTO(bookings);
         response.setMessage("success");
         response.setStatusCode(200);
@@ -85,7 +88,7 @@ public class BookingService implements IBookingService {
         Response response = new Response();
         Booking booking = bookingRepository.findByConfirmationCode(confirmationCode)
                 .orElseThrow(()->new MyException("cannot find booking with confirmation code " + confirmationCode, 404));
-        BookingDTO bookingDTO = Utils.mapBookingEntityToBookingDTO(booking);
+        BookingDTO bookingDTO = Utils.mapBookingEntityToBookingDTOPlusBookedRooms(booking, true);
         response.setMessage("success");
         response.setStatusCode(200);
         response.setBooking(bookingDTO);

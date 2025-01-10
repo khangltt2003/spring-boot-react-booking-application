@@ -1,8 +1,8 @@
 package com.dylan.Booking.controller;
 
-
 import com.dylan.Booking.dto.Response;
 import com.dylan.Booking.enums.RoomType;
+import com.dylan.Booking.exceptions.MyException;
 import com.dylan.Booking.service.interfac.IRoomService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.format.DecimalStyle;
 
 @RestController
 @RequestMapping("/rooms")
@@ -33,10 +32,7 @@ public class RoomController {
     ) {
 
         if (photo == null || photo.isEmpty() || type == null  || price == null || description.isBlank() || description == null ) {
-            Response response = new Response();
-            response.setStatusCode(400);
-            response.setMessage("missing photo, type, price, or description");
-            return ResponseEntity.status(response.getStatusCode()).body(response);
+            throw new MyException("phote, type, price, and description are required", 400);
         }
         Response response = iRoomService.createRoom(photo, type, price, description);
         return ResponseEntity.status(response.getStatusCode()).body(response);
@@ -55,7 +51,7 @@ public class RoomController {
     }
 
     @GetMapping("/available")
-    public ResponseEntity<Response> getAvailableRooms(@PathVariable String roomId){
+    public ResponseEntity<Response> getAvailableRooms(){
         Response response = iRoomService.getAllAvailableRooms();
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
@@ -83,12 +79,10 @@ public class RoomController {
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
-
     @DeleteMapping("/{roomId}")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'admin')")
     public ResponseEntity<Response> removeRoom(@PathVariable String roomId){
         Response response = iRoomService.removeRoom(roomId);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
-
 }
