@@ -48,7 +48,7 @@ public class AwsS3Service {
 
         } catch (Exception e) {
             e.printStackTrace();
-            throw new MyException("cannot upload image to s3 bucket" + e.getMessage());
+            throw new MyException("cannot upload image to s3 bucket" + e.getMessage(), 400);
         }
     }
 }

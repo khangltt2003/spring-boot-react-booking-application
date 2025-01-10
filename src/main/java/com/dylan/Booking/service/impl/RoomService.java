@@ -32,149 +32,95 @@ public class RoomService implements IRoomService {
     @Override
     public Response createRoom(MultipartFile photo, RoomType type, BigDecimal price, String description) {
         Response response = new Response();
-        try {
-            String imageUrl = awsS3Service.uploadImageToS3(photo);
-            Room newRoom = new Room();
-            newRoom.setImageUrl(imageUrl);
-            newRoom.setType(type);
-            newRoom.setDescription(description);
-            newRoom.setPrice(price);
-            Room savedRoom = roomRepository.save(newRoom);
-            RoomDTO savedRoomDTO = Utils.mapRoomEntityToRoomDTO(savedRoom);
-            response.setMessage("success");
-            response.setStatusCode(201);
-            response.setRoom(savedRoomDTO);
-        }
-        catch (Exception e){
-            response.setMessage("internal server error " + e.getMessage());
-            response.setStatusCode(500);
-        }
+        String imageUrl = awsS3Service.uploadImageToS3(photo);
+        Room newRoom = new Room();
+        newRoom.setImageUrl(imageUrl);
+        newRoom.setType(type);
+        newRoom.setDescription(description);
+        newRoom.setPrice(price);
+        Room savedRoom = roomRepository.save(newRoom);
+        RoomDTO savedRoomDTO = Utils.mapRoomEntityToRoomDTO(savedRoom);
+        response.setMessage("success");
+        response.setStatusCode(201);
+        response.setRoom(savedRoomDTO);
         return response;
     }
 
     @Override
     public Response getRoomById(String roomId) {
         Response response = new Response();
-        try {
-            Room room = roomRepository.findById(roomId).orElseThrow(()-> new MyException("cannot find room " + roomId));
-            RoomDTO roomDTO = Utils.mapRoomEntityToRoomDTO(room);
-            response.setMessage("success");
-            response.setStatusCode(200);
-            response.setRoom(roomDTO);
-        }
-        catch (MyException e){
-            response.setStatusCode(404);
-            response.setMessage(e.getMessage());
-        }
-        catch (Exception e){
-            response.setMessage("internal server error " + e.getMessage());
-            response.setStatusCode(500);
-        }
+        Room room = roomRepository.findById(roomId).orElseThrow(()-> new MyException("cannot find room " + roomId, 404));
+        RoomDTO roomDTO = Utils.mapRoomEntityToRoomDTO(room);
+        response.setMessage("success");
+        response.setStatusCode(200);
+        response.setRoom(roomDTO);
         return response;
     }
 
     @Override
     public Response getAllRooms() {
         Response response = new Response();
-        try {
-            List<Room> rooms = roomRepository.findAll();
-            List<RoomDTO> roomDTOList  = Utils.mapRoomListEntityToRoomListDTO(rooms);
-            response.setMessage("success");
-            response.setStatusCode(200);
-            response.setRooms(roomDTOList);
-        }
-        catch (Exception e){
-            response.setMessage("internal server error " + e.getMessage());
-            response.setStatusCode(500);
-        }
+        List<Room> rooms = roomRepository.findAll();
+        List<RoomDTO> roomDTOList  = Utils.mapRoomListEntityToRoomListDTO(rooms);
+        response.setMessage("success");
+        response.setStatusCode(200);
+        response.setRooms(roomDTOList);
         return response;
     }
 
     @Override
     public Response getAllAvailableRooms() {
         Response response = new Response();
-        try {
-            List<Room> availableRooms = roomRepository.getAvailableRooms();
-            List<RoomDTO> availableRoomsDTO = Utils.mapRoomListEntityToRoomListDTO(availableRooms);
-            response.setMessage("success");
-            response.setStatusCode(200);
-            response.setRooms(availableRoomsDTO);
-        }
-        catch (Exception e){
-            response.setMessage("internal server error " + e.getMessage());
-            response.setStatusCode(500);
-        }
+        List<Room> availableRooms = roomRepository.getAvailableRooms();
+        List<RoomDTO> availableRoomsDTO = Utils.mapRoomListEntityToRoomListDTO(availableRooms);
+        response.setMessage("success");
+        response.setStatusCode(200);
+        response.setRooms(availableRoomsDTO);
         return response;
     }
 
     @Override
     public Response getAvailableRoomsByDateAndType(LocalDateTime checkInTime, LocalDateTime checkOutTime, RoomType type) {
         Response response = new Response();
-        try {
-            List<Room> availableRooms = roomRepository.findAvailableRoomsByDatesAndTypes(type, checkInTime, checkOutTime);
-            List<RoomDTO> availableRoomsDTO = Utils.mapRoomListEntityToRoomListDTO(availableRooms);
-            response.setMessage("success");
-            response.setStatusCode(200);
-            response.setRooms(availableRoomsDTO);
-        }
-        catch (Exception e){
-            response.setMessage("internal server error " + e.getMessage());
-            response.setStatusCode(500);
-        }
+        List<Room> availableRooms = roomRepository.findAvailableRoomsByDatesAndTypes(type, checkInTime, checkOutTime);
+        List<RoomDTO> availableRoomsDTO = Utils.mapRoomListEntityToRoomListDTO(availableRooms);
+        response.setMessage("success");
+        response.setStatusCode(200);
+        response.setRooms(availableRoomsDTO);
         return response;
     }
 
     @Override
     public Response updateRoom(String roomId, MultipartFile photo, RoomType type, BigDecimal price, String description) {
         Response response = new Response();
-        try {
-            Room room = roomRepository.findById(roomId).orElseThrow(()-> new MyException("cannot find room "+ roomId));
+        Room room = roomRepository.findById(roomId).orElseThrow(()-> new MyException("cannot find room "+ roomId, 404));
 
-            if(!photo.isEmpty() || photo != null){
-                String imageUrl = awsS3Service.uploadImageToS3(photo);
-                room.setImageUrl(imageUrl);
-            }
+        if(!photo.isEmpty() || photo != null){
+            String imageUrl = awsS3Service.uploadImageToS3(photo);
+            room.setImageUrl(imageUrl);
+        }
 
-            if(type != null) room.setType(type);
-            if(price != null)room.setPrice(price);
-            if(description != null) room.setDescription(description);
+        if(type != null) room.setType(type);
+        if(price != null)room.setPrice(price);
+        if(description != null) room.setDescription(description);
 
-            Room savedRoom = roomRepository.save(room);
-            RoomDTO savedRoomDTO = Utils.mapRoomEntityToRoomDTO(savedRoom);
-            response.setMessage("success");
-            response.setStatusCode(201);
-            response.setRoom(savedRoomDTO);
-        }
-        catch (MyException e){
-            response.setStatusCode(404);
-            response.setMessage(e.getMessage());
-        }
-        catch (Exception e){
-            response.setMessage("internal server error " + e.getMessage());
-            response.setStatusCode(500);
-        }
+        Room savedRoom = roomRepository.save(room);
+        RoomDTO savedRoomDTO = Utils.mapRoomEntityToRoomDTO(savedRoom);
+        response.setMessage("success");
+        response.setStatusCode(201);
+        response.setRoom(savedRoomDTO);
         return response;
     }
 
     @Override
     public Response removeRoom(String roomId) {
         Response response = new Response();
-        try {
-            if(!roomRepository.existsById(roomId)){
-                throw new MyException("cannot find room " + roomId);
-            }
-            roomRepository.deleteById(roomId);
-            response.setMessage("success");
-            response.setStatusCode(204);
+        if(!roomRepository.existsById(roomId)){
+            throw new MyException("cannot find room " + roomId, 404);
         }
-        catch (MyException e){
-            response.setStatusCode(404);
-            response.setMessage(e.getMessage());
-        }
-        catch (Exception e){
-            response.setMessage("internal server error " + e.getMessage());
-            response.setStatusCode(500);
-        }
+        roomRepository.deleteById(roomId);
+        response.setMessage("success");
+        response.setStatusCode(204);
         return response;
     }
 }

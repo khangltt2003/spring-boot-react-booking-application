@@ -24,7 +24,7 @@ public class RoomController {
     }
 
     @PostMapping("")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'admin')")
     public ResponseEntity<Response> createRoom(
             @RequestParam("photo") MultipartFile photo,
             @RequestParam("type") RoomType type,
@@ -60,7 +60,7 @@ public class RoomController {
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
-    @GetMapping("/available")
+    @GetMapping("/availablebytimeandtype")
     public ResponseEntity<Response> getAvailableRoomsByDateAndType(
             @RequestParam(name = "checkInTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime checkInTime,
             @RequestParam(name = "checkOutTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime checkOutTime,
@@ -71,7 +71,7 @@ public class RoomController {
     }
 
     @PutMapping("/{roomId}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'admin')")
     public ResponseEntity<Response> updateRoom(
             @PathVariable String roomId,
             @RequestParam(name = "photo",required = false) MultipartFile photo,
@@ -85,7 +85,7 @@ public class RoomController {
 
 
     @DeleteMapping("/{roomId}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'admin')")
     public ResponseEntity<Response> removeRoom(@PathVariable String roomId){
         Response response = iRoomService.removeRoom(roomId);
         return ResponseEntity.status(response.getStatusCode()).body(response);

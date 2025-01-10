@@ -1,28 +1,17 @@
 package com.dylan.Booking.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class LoginRequestDTO {
-    @NotBlank(message = "email is required")
+
+    @NotBlank(message = "email cannot be blank")
+    @NotNull(message = "email is required")
     private String email;
-    @NotBlank(message = "password is required")
+    
+    @NotNull(message = "password is required")
+    @NotBlank(message = "password cannot be blank")
     private String password;
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
