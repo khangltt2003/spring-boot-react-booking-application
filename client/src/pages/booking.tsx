@@ -141,7 +141,7 @@ export const Booking = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6 ">
+    <div className="min-h-screen bg-black/90 p-6 ">
       <h1 className="text-3xl font-bold text-center mb-6">My Bookings</h1>
 
       {/* Search Box */}

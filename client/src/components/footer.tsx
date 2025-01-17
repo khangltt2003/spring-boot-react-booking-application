@@ -19,21 +19,21 @@ const currentYear = new Date().getFullYear();
 
 export function Footer() {
   return (
-    <footer className="relative w-full pt-5">
+    <footer className="relative w-full pt-14 border-t-2 border-blue-gray-600">
       <div className="mx-auto w-[80%] max-w-7xl px-8 ">
         <div className="grid grid-cols-1 justify-between gap-4 md:grid-cols-2">
-          <Typography variant="h5" className="mb-6">
+          <Typography variant="h2" className="mb-6">
             Roomzy
           </Typography>
           <div className="grid grid-cols-3 justify-between gap-4">
             {LINKS.map(({ title, items }) => (
               <ul key={title}>
-                <Typography variant="small" color="blue-gray" className="mb-3 font-medium opacity-40">
+                <Typography variant="lead" color="blue-gray" className="mb-3 font-medium opacity-40">
                   {title}
                 </Typography>
                 {items.map((link) => (
                   <li key={link}>
-                    <Typography as="a" href="#" color="gray" className="py-1.5 font-normal transition-colors hover:text-blue-gray-900">
+                    <Typography as="a" href="#" color="gray" className="py-1 font-normal transition-colors hover:text-blue-gray-900">
                       {link}
                     </Typography>
                   </li>

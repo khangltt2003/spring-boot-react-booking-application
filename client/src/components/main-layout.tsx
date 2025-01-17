@@ -7,9 +7,7 @@ export const MainLayout = () => {
   return (
     <div className="w-full h-screen relative">
       <MyNavbar />
-      <div className=" h-full ">
-        <Outlet />
-      </div>
+      <Outlet />
       <Footer />
     </div>
   );

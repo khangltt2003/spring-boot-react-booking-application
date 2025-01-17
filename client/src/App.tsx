@@ -6,6 +6,7 @@ import { RoomsList } from "./pages/room";
 import { Login } from "./components/auth/login";
 import { Register } from "./components/auth/signup";
 import { AuthLayout } from "./components/auth/auth-layout";
+import { RoomDetail } from "./pages/room-detail";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/room" element={<RoomsList />} />
+          <Route path="/room/:roomId" element={<RoomDetail />} />
           <Route path="/booking" element={<Booking />} />
         </Route>
       </Routes>

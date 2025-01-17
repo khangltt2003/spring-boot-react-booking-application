@@ -12,17 +12,17 @@ export function MyNavbar() {
 
   const navList = (
     <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 ">
-      <Typography as="li" variant="small" color="blue-gray" className="p-1 font-normal text-lg hover:scale-110 transition-all">
+      <Typography as="li" variant="small" color="blue-gray" className="p-1 font-normal text-lg md:hover:scale-110 md:transition-all">
         <a href="/" className="flex items-center">
           Home
         </a>
       </Typography>
-      <Typography as="li" variant="small" color="blue-gray" className="p-1 font-normal text-lg hover:scale-110 transition-all">
+      <Typography as="li" variant="small" color="blue-gray" className="p-1 font-normal text-lg md:hover:scale-110 md:transition-all">
         <a href="/room" className="flex items-center">
           Rooms
         </a>
       </Typography>
-      <Typography as="li" variant="small" color="blue-gray" className="p-1 font-normal text-lg hover:scale-110 transition-all">
+      <Typography as="li" variant="small" color="blue-gray" className="p-1 font-normal text-lg md:hover:scale-110 md:transition-all">
         <a href="/booking" className="flex items-center">
           Booking
         </a>
@@ -31,10 +31,10 @@ export function MyNavbar() {
   );
 
   return (
-    <div className="sticky z-10 top-0 max-h-[768px]">
+    <div className="sticky z-10 top-0 max-h-[768px] shadow-sm shadow-blue-gray-600">
       <Navbar className="  h-max max-w-full rounded-none px-4 py-2 lg:px-8 lg:py-4 ">
         <div className="flex items-center justify-between text-blue-gray-900 md:w-[80%] mx-auto">
-          <Typography as="a" href="/" className="mr-4 cursor-pointer py-1.5 font-bold text-2xl">
+          <Typography variant="h2" as="a" href="/" className="mr-4 cursor-pointer py-1.5 font-bold text-2xl">
             Roomzy
           </Typography>
           <div className="flex items-center gap-4">

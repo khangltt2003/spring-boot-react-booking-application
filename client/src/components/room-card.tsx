@@ -1,6 +1,7 @@
 import { Card, CardHeader, CardBody, CardFooter, Typography, Button, Tooltip, IconButton } from "@material-tailwind/react";
 
 interface RoomProps {
+  id: string;
   imageUrl: string;
   price: number;
   type: string;
@@ -8,7 +9,7 @@ interface RoomProps {
 
 export const RoomCard = ({ room }: { room: RoomProps }) => {
   return (
-    <Card className=" max-w-[26rem] shadow-lg hover:shadow-2xl hover:scale-105 transition-all">
+    <Card className=" max-w-[26rem] shadow-lg hover:shadow-2xl hover:scale-105 transition-all rounded-lg ">
       <CardHeader floated={false} color="blue-gray">
         <div className=" h-[200px]">
           <img className="w-full h-full object-cover" src={room.imageUrl} alt="ui/ux review check" />
@@ -85,9 +86,11 @@ export const RoomCard = ({ room }: { room: RoomProps }) => {
         </div>
       </CardBody>
       <CardFooter className="pt-0">
-        <Button size="lg" fullWidth={true}>
-          Book Now
-        </Button>
+        <a href={`/room/${room.id}`}>
+          <Button size="lg" fullWidth={true} className="rounded-lg">
+            Book Now
+          </Button>
+        </a>
       </CardFooter>
     </Card>
   );
