@@ -64,18 +64,20 @@ export const Home = () => {
           className="h-full w-full object-cover"
         />
       </Carousel>
-      <div className="absolute inset-0 h-full bg-black/30 text-white flex flex-col items-center justify-center">
+      <div className="absolute inset-0 h-full bg-black/40 text-white flex flex-col items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-4">Welcome to Roomzy</h1>
           <p className="text-lg md:text-xl mb-8 text-gray-300">Experience comfort and luxury at its finest.</p>
 
           <div className="flex gap-4 justify-center mb-12">
             <a href="/room">
-              <Button variant="gradient">Find a Room</Button>
+              <Button variant="gradient" color="black">
+                <span className="text-base">Find a Room</span>
+              </Button>
             </a>
             <a href="/booking">
               <Button variant="gradient" color="white">
-                Check Booking
+                <span className="text-base">Check Booking</span>
               </Button>
             </a>
           </div>

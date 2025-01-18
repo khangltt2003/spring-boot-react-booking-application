@@ -22,7 +22,7 @@ export function BookingCard({ booking }) {
       </CardBody>
       <CardFooter className="pt-0">
         <Button size="lg" fullWidth={true}>
-          Check In
+          <span>Check In</span>
         </Button>
       </CardFooter>
     </Card>

@@ -1,9 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Nova+Mono&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
-
 * {
-  font-family: "Roboto", serif;
+  /* font-family: "Roboto", serif; */
+  font-family: "Nova Mono", serif;
 }

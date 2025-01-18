@@ -9,8 +9,8 @@ interface RoomProps {
 
 export const RoomCard = ({ room }: { room: RoomProps }) => {
   return (
-    <Card className=" max-w-[26rem] shadow-lg hover:shadow-2xl hover:scale-105 transition-all rounded-lg ">
-      <CardHeader floated={false} color="blue-gray">
+    <Card className=" max-w-[26rem] shadow-lg hover:shadow-2xl hover:scale-105 transition-all rounded-none ">
+      <CardHeader className="rounded-none" floated={false} color="blue-gray">
         <div className=" h-[200px]">
           <img className="w-full h-full object-cover" src={room.imageUrl} alt="ui/ux review check" />
         </div>
@@ -88,7 +88,7 @@ export const RoomCard = ({ room }: { room: RoomProps }) => {
       <CardFooter className="pt-0">
         <a href={`/room/${room.id}`}>
           <Button size="lg" fullWidth={true} className="rounded-lg">
-            Book Now
+            <span className="text-base">Book Now</span>
           </Button>
         </a>
       </CardFooter>

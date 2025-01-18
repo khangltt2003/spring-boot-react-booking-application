@@ -33,7 +33,7 @@ export const RoomDetail = () => {
       setIsLoading(true);
       const res = await axios({
         method: "GET",
-        url: `http://localhost:8080/rooms/${roomId}`,
+        url: `${import.meta.env.VITE_API_BASE_URL}/rooms/${roomId}`,
       });
       setRoom({ ...res.data.room, reviews });
       setIsLoading(false);
