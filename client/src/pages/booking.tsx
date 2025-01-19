@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { BookingCard } from "../components/booking-card";
+import { BookingCard } from "../components/booking/booking-card";
 import { Loading } from "../components/Loading";
 
 export const Booking = () => {
@@ -50,7 +50,7 @@ export const Booking = () => {
               placeholder="Enter Confirmation Code"
               value={searchCode}
               onChange={(e) => setSearchCode(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none md:w-[300px]"
+              className="px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none w-full sm:w-[400px] md:w-[300px]"
             />
             <button onClick={handleSearch} className="px-6 py-2 bg-black text-white rounded-r-lg hover:bg-gray-800 transition">
               Search

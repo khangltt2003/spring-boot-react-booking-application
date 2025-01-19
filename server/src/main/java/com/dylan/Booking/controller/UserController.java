@@ -18,32 +18,32 @@ public class UserController {
     private final Logger LOGGER = LoggerUtil.getLogger(BookingService.class);
 
 
-    public UserController(IUserService iUserService){
+    public UserController(IUserService iUserService) {
         this.iUserService = iUserService;
     }
 
     @GetMapping("")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'admin')")
-    public ResponseEntity<Response>getAllUsers(){
+    public ResponseEntity<Response> getAllUsers() {
         Response response = iUserService.getAllUsers();
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<Response> getUserById(@PathVariable String userId){
+    public ResponseEntity<Response> getUserById(@PathVariable String userId) {
         Response response = iUserService.getUserById(userId);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @DeleteMapping("/{userId}")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'admin')")
-    public ResponseEntity<Response> deleteUserById(@PathVariable String userId){
+    public ResponseEntity<Response> deleteUserById(@PathVariable String userId) {
         Response response = iUserService.deleteUser(userId);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @GetMapping("/get-current-user")
-    public ResponseEntity<Response> getCurrentUser(){
+    public ResponseEntity<Response> getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         Response response = iUserService.getUserByEmail(email);
@@ -51,7 +51,7 @@ public class UserController {
     }
 
     @GetMapping("/get-user-booking/{userId}")
-    public ResponseEntity<Response> getUserBookings(@PathVariable String userId){
+    public ResponseEntity<Response> getUserBookings(@PathVariable String userId) {
         Response response = iUserService.getUserBookings(userId);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }

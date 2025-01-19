@@ -1,9 +1,12 @@
 import { Card, CardHeader, CardBody, CardFooter, Typography, Input, Checkbox, Button } from "@material-tailwind/react";
 import axios from "axios";
+import { useContext } from "react";
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
+import AuthContext from "../provider/auth-provider";
 
 export function Login() {
+  const authContext = useContext(AuthContext);
   const [searchParams] = useSearchParams();
   const redirectURL = searchParams.get("redirect") || "/";
   const navigate = useNavigate();
@@ -27,13 +30,7 @@ export function Login() {
 
     try {
       setLoading(true);
-      const res = await axios({
-        url: `${import.meta.env.VITE_API_BASE_URL}/auth/login`,
-        method: "POST",
-        data: loginData,
-      });
-
-      sessionStorage.setItem("auth", JSON.stringify({ token: res.data.token, role: res.data.role }));
+      authContext.login(loginData.email, loginData.password);
       return navigate(redirectURL);
     } catch (e) {
       setError(e.response.data.message);

@@ -32,15 +32,15 @@ public class BookingService implements IBookingService {
     @Override
     public Response createBooking(Booking bookingRequest, String userId, String roomId) {
         Response response = new Response();
-        if(bookingRequest.getCheckInTime().isAfter(bookingRequest.getCheckOutTime())){
-            throw  new MyException("invalid check out time must be after check in time", 400);
+        if (bookingRequest.getCheckInTime().isAfter(bookingRequest.getCheckOutTime())) {
+            throw new MyException("invalid check out time must be after check in time", 400);
         }
-        User user = userRepository.findById(userId).orElseThrow(()-> new MyException("cannot find user " + userId, 404));
-        Room room = roomRepository.findById(roomId).orElseThrow(()->new MyException("cannot find room " + roomId, 404));
+        User user = userRepository.findById(userId).orElseThrow(() -> new MyException("cannot find user " + userId, 404));
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new MyException("cannot find room " + roomId, 404));
 
         List<Booking> existingBookingsForRoom = bookingRepository.findByRoomId(roomId);
 
-        if(!validBooking(existingBookingsForRoom, bookingRequest)){
+        if (!validBooking(existingBookingsForRoom, bookingRequest)) {
             throw new MyException("requested time overlaps with existing booking", 400);
         }
 
@@ -60,7 +60,7 @@ public class BookingService implements IBookingService {
     @Override
     public Response getBookingById(String bookingId) {
         Response response = new Response();
-        Booking booking = bookingRepository.findById(bookingId).orElseThrow(()->new MyException("cannot find booking " + bookingId, 404));
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new MyException("cannot find booking " + bookingId, 404));
         BookingDTO bookingDTO = Utils.mapBookingEntityToBookingDTOPlusBookedRooms(booking, true);
         response.setStatusCode(200);
         response.setMessage("success");
@@ -70,9 +70,9 @@ public class BookingService implements IBookingService {
     }
 
     @Override
-    public Response getBookingByUserId(String userId){
+    public Response getBookingByUserId(String userId) {
         Response response = new Response();
-        User user = userRepository.findById(userId).orElseThrow(()-> new MyException("cannot find user " + userId, 400));
+        User user = userRepository.findById(userId).orElseThrow(() -> new MyException("cannot find user " + userId, 400));
 
         List<Booking> bookings = user.getBookings();
         List<BookingDTO> bookingsDTO = Utils.mapBookingListEntityToBookingListDTO(bookings);
@@ -87,7 +87,7 @@ public class BookingService implements IBookingService {
     public Response getBookingByConfirmationCode(String confirmationCode) {
         Response response = new Response();
         Booking booking = bookingRepository.findByConfirmationCode(confirmationCode)
-                .orElseThrow(()->new MyException("cannot find booking with confirmation code " + confirmationCode, 404));
+                .orElseThrow(() -> new MyException("cannot find booking with confirmation code '" + confirmationCode + "'", 404));
         BookingDTO bookingDTO = Utils.mapBookingEntityToBookingDTOPlusBookedRooms(booking, true);
         response.setMessage("success");
         response.setStatusCode(200);
@@ -110,12 +110,12 @@ public class BookingService implements IBookingService {
     @Override
     public Response deleteBooking(String bookingId) {
         Response response = new Response();
-        if(!bookingRepository.existsById(bookingId)){
-            throw  new MyException("cannot find booking " + bookingId, 400);
+        if (!bookingRepository.existsById(bookingId)) {
+            throw new MyException("cannot find booking " + bookingId, 400);
         }
         bookingRepository.deleteById(bookingId);
         response.setStatusCode(204);
-        response.setMessage("deleted booking " + bookingId );
+        response.setMessage("deleted booking " + bookingId);
         return response;
     }
 
@@ -127,9 +127,10 @@ public class BookingService implements IBookingService {
         }
         return true;
     }
+
     private boolean isOverlapping(Booking existingBooking, Booking bookingRequest) {
         return !(bookingRequest.getCheckOutTime().isBefore(existingBooking.getCheckInTime()) ||
-                 bookingRequest.getCheckInTime().isAfter(existingBooking.getCheckOutTime()));
+                bookingRequest.getCheckInTime().isAfter(existingBooking.getCheckOutTime()));
     }
 
 }

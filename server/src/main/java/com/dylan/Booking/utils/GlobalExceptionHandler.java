@@ -14,6 +14,7 @@ import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+    // exception handler for @Email @NotBlank, etc
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Response> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Response response = new Response();
@@ -31,7 +32,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Response> handleAccessDeniedException(AccessDeniedException ex) {
         Response response = new Response();
-        Map<String ,String> error = new HashMap<>();
+        Map<String, String> error = new HashMap<>();
         error.put("unauthorized", "do not have permission to perform this request");
         response.setStatusCode(401);
         response.setErrors(error);
@@ -39,7 +40,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MyException.class)
-        public ResponseEntity<Response> handleMyException(MyException ex) {
+    public ResponseEntity<Response> handleMyException(MyException ex) {
         Response response = new Response();
         response.setStatusCode(ex.getStatusCode());
         response.setMessage(ex.getMessage());
@@ -55,7 +56,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<Response> handleAuthenticationException(AuthenticationException ex){
+    public ResponseEntity<Response> handleAuthenticationException(AuthenticationException ex) {
         Response response = new Response();
         response.setStatusCode(401);
         response.setMessage("invalid password or email");

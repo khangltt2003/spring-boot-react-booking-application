@@ -1,19 +1,31 @@
 import { Card, CardHeader, CardBody, CardFooter, Typography, Input, Checkbox, Button } from "@material-tailwind/react";
 import axios from "axios";
 import { useState } from "react";
-import { data } from "react-router";
+import { data, useNavigate } from "react-router";
 
 export function Register() {
+  const navigate = useNavigate();
   const [registerData, setRegisterData] = useState({
     email: "",
     password: "",
     password1: "",
     phoneNumber: "",
+    name: "",
   });
-  const [error, setError] = useState(null);
+
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    phoneNumber: "",
+    name: "",
+    message: "",
+  });
+
+  const [message, setMessage] = useState(null);
+
   const [loading, setLoading] = useState(false);
   const handlOnChange = (e) => {
-    setError(null);
+    setErrors(null);
     setRegisterData((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
@@ -23,19 +35,35 @@ export function Register() {
     if (!registerData.email || !registerData.password || !registerData.password || !registerData.phoneNumber) return;
 
     if (registerData.password !== registerData.password1) {
-      setError("password does not match");
+      setErrors((prev) => {
+        return { ...prev, password: "password does not match" };
+      });
       return;
     }
 
     try {
+      setLoading(true);
       await axios({
         method: "POST",
         url: `${import.meta.env.VITE_API_BASE_URL}/auth/register`,
         data: registerData,
       });
+
+      setMessage("registerd successfully");
+      setTimeout(() => {
+        return navigate("/login");
+      }, 2000);
     } catch (e) {
       console.log(e);
-      setError(JSON.stringify(e.response.data.errors));
+      if (e.response.data.errors) {
+        setErrors(e.response.data.errors);
+      } else if (e.response.data.message) {
+        setErrors((prev) => {
+          return { ...prev, message: e.response.data.message };
+        });
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -56,16 +84,32 @@ export function Register() {
             </Typography>
           </CardHeader>
           <CardBody className="flex flex-col gap-4">
-            <Input label="Email" size="lg" name="email" onChange={handlOnChange} />
-            <Input label="Phone Number" size="lg" name="phoneNumber" onChange={handlOnChange} />
-            <Input label="Password" size="lg" name="password" onChange={handlOnChange} />
-            <Input label="Retype Password" size="lg" name="password1" onChange={handlOnChange} />
+            <div>
+              <Input label="Email" size="lg" name="email" onChange={handlOnChange} />
+              {errors?.email && <span className="text-sm text-red-500">{errors.email}</span>}
+            </div>
+            <div>
+              <Input label="Full Name" size="lg" name="name" onChange={handlOnChange} />
+              {errors?.name && <span className="text-sm text-red-500">{errors.name}</span>}
+            </div>
+            <div>
+              <Input label="Phone Number" size="lg" name="phoneNumber" onChange={handlOnChange} />
+              {errors?.phoneNumber && <span className="text-sm text-red-500">{errors.phoneNumber}</span>}
+            </div>
+            <div>
+              <Input label="Password" size="lg" name="password" onChange={handlOnChange} />
+              {errors?.password && <span className="text-sm text-red-500">{errors.password}</span>}
+            </div>
+            <div>
+              <Input label="Retype Password" size="lg" name="password1" onChange={handlOnChange} />
+              {errors?.password && <span className="text-sm text-red-500">{errors.password}</span>}
+            </div>
             <div className="flex justify-center">
-              <Typography variant="small" color="red">
-                <span>{error}</span>
-              </Typography>
+              {errors?.message && <span className="text-sm text-red-500">{errors.message}</span>}
+              {message && <span className="text-sm text-green-500">{message}</span>}
             </div>
           </CardBody>
+
           <CardFooter className="pt-0">
             <Button variant="gradient" fullWidth loading={loading} onClick={handleSubmit}>
               Sign Up

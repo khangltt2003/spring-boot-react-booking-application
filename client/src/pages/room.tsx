@@ -1,5 +1,5 @@
 import { Button } from "@material-tailwind/react";
-import { RoomCard } from "../components/room-card";
+import { RoomCard } from "../components/room/room-card";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
@@ -10,10 +10,14 @@ export const RoomsList = () => {
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const getRooms = async () => {
-      setIsLoading(true);
-      const res = await axios({ method: "GET", url: `${import.meta.env.VITE_API_BASE_URL}/rooms` });
-      setRooms(res.data.rooms);
-      setIsLoading(false);
+      try {
+        setIsLoading(true);
+        const res = await axios({ method: "GET", url: `${import.meta.env.VITE_API_BASE_URL}/rooms` });
+        setRooms(res.data.rooms);
+      } catch (e) {
+      } finally {
+        setIsLoading(false);
+      }
     };
     getRooms();
   }, []);

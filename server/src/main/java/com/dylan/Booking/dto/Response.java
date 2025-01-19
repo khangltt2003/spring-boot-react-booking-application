@@ -12,7 +12,6 @@ public class Response {
     private int statusCode;
     private String message;
     private String role;
-
     private String token;
     private String expirationTime;
     private String confirmationCode;
@@ -23,6 +22,7 @@ public class Response {
     private List<UserDTO> users;
     private List<BookingDTO> bookings;
     private List<RoomDTO> rooms;
+    private String userId;
 
     private Map<String, String> errors;
 }

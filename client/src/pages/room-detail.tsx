@@ -6,15 +6,6 @@ import { useEffect } from "react";
 import axios from "axios";
 import { Loading } from "../components/Loading";
 
-// const room = {
-//   id: "1234",
-//   type: "Deluxe Suite",
-//   price: 299.99,
-//   imageUrl: "https://via.placeholder.com/600x400",
-//   description: "A luxurious suite with a stunning view, king-sized bed, and modern amenities.",
-
-// };
-
 const reviews = [
   { name: "Alice", rating: 5, comment: "Amazing stay! Highly recommend." },
   { name: "Bob", rating: 4, comment: "Great experience, but room service was a bit slow." },
@@ -42,7 +33,6 @@ export const RoomDetail = () => {
     getRoom();
   }, []);
 
-  // Calculate average rating
   const averageRating =
     room?.reviews.length > 0 ? (reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length).toFixed(1) : "No ratings yet";
 
