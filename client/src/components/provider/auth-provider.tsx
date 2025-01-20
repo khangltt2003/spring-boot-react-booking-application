@@ -16,8 +16,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const storedAuth = localStorage.getItem("auth");
     if (storedAuth) {
-      setAuth(JSON.parse(storedAuth));
-      setRole(JSON.parse(storedAuth).role);
       const getUser = async () => {
         const res = await axios({
           method: "GET",
@@ -27,6 +25,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           },
         });
         setUser(res.data.user);
+        setAuth(JSON.parse(storedAuth));
+        setRole(JSON.parse(storedAuth).role);
       };
 
       getUser();
@@ -58,6 +58,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     login,
     logout,
     user,
+    auth,
     isAuthenticated,
     isAdmin,
   };

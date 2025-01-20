@@ -11,7 +11,7 @@ export function MyNavbar() {
   const [openNav, setOpenNav] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const currentPath = location.pathname || "/";
+  let currentPath = location.pathname || "/";
 
   useEffect(() => {
     window.addEventListener("resize", () => window.innerWidth >= 960 && setOpenNav(false));
@@ -58,11 +58,11 @@ export function MyNavbar() {
                     </Typography>
                   </MenuHandler>
                   <MenuList>
-                    <MenuItem>
-                      <span className="text-black">Your Booking</span>
-                    </MenuItem>
-                    <MenuItem>
+                    <MenuItem onClick={() => navigate("/profile")}>
                       <span className="text-black">Your Profile</span>
+                    </MenuItem>
+                    <MenuItem onClick={() => navigate("/user-booking")}>
+                      <span className="text-black">Your Booking</span>
                     </MenuItem>
                     <hr className="my-3" />
                     <MenuItem className="p-0">

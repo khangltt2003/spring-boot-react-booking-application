@@ -31,6 +31,7 @@ export function Login() {
     try {
       setLoading(true);
       authContext.login(loginData.email, loginData.password);
+      if (redirectURL === "/login" || redirectURL === "/signup") return navigate("/");
       return navigate(redirectURL);
     } catch (e) {
       setError(e.response.data.message);
