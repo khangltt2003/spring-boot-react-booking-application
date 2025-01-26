@@ -13,45 +13,46 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/bookings")
 public class BookingController {
     private final IBookingService iBookingService;
-    public BookingController(IBookingService iBookingService){
+
+    public BookingController(IBookingService iBookingService) {
         this.iBookingService = iBookingService;
     }
 
     @PostMapping("")
-    public ResponseEntity<Response>createBooking(@RequestParam("userId") String userId,
-                                           @RequestParam("roomId") String roomId,
-                                           @RequestBody Booking bookingRequest){
+    public ResponseEntity<Response> createBooking(@RequestParam("userId") String userId,
+                                                  @RequestParam("roomId") String roomId,
+                                                  @RequestBody Booking bookingRequest) {
         Response response = iBookingService.createBooking(bookingRequest, userId, roomId);
         return ResponseEntity.status(response.getStatusCode()).body(response);
 
     }
 
     @GetMapping("")
-    public ResponseEntity<Response> getAllBookings(){
+    public ResponseEntity<Response> getAllBookings() {
         Response response = iBookingService.getAllBookings();
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @GetMapping("/{bookingId}")
-    public ResponseEntity<Response> getBookingById(@PathVariable String bookingId){
+    public ResponseEntity<Response> getBookingById(@PathVariable String bookingId) {
         Response response = iBookingService.getBookingById(bookingId);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @GetMapping("/confirmation-code/{code}")
-    public ResponseEntity<Response> getBookingByConfirmationCode(@PathVariable String code){
+    public ResponseEntity<Response> getBookingByConfirmationCode(@PathVariable String code) {
         Response response = iBookingService.getBookingByConfirmationCode(code);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @GetMapping("/userId/{userId}")
-    public ResponseEntity<Response> getBookingByUserId(@PathVariable String userId){
+    public ResponseEntity<Response> getBookingByUserId(@PathVariable String userId) {
         Response response = iBookingService.getBookingByUserId(userId);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @DeleteMapping("/{bookingId}")
-    public ResponseEntity<Response> deleteBookingById(@PathVariable String bookingId){
+    public ResponseEntity<Response> deleteBookingById(@PathVariable String bookingId) {
         Response response = iBookingService.deleteBooking(bookingId);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }

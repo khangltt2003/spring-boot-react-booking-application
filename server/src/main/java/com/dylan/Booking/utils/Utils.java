@@ -8,6 +8,7 @@ import com.dylan.Booking.model.Room;
 import com.dylan.Booking.model.User;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -105,6 +106,8 @@ public class Utils {
 
         if (!user.getBookings().isEmpty()) {
             userDTO.setBookings(user.getBookings().stream().map(booking -> mapBookingEntityToBookingDTOPlusBookedRooms(booking, false)).collect(Collectors.toList()));
+        } else {
+            userDTO.setBookings(new ArrayList<>());
         }
         return userDTO;
     }

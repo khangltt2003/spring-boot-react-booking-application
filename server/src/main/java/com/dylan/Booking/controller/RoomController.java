@@ -31,7 +31,7 @@ public class RoomController {
             @RequestParam("description") String description
     ) {
 
-        if (photo == null || photo.isEmpty() || type == null  || price == null || description.isBlank() || description == null ) {
+        if (photo == null || photo.isEmpty() || type == null || price == null || description.isBlank() || description == null) {
             throw new MyException("phote, type, price, and description are required", 400);
         }
         Response response = iRoomService.createRoom(photo, type, price, description);
@@ -39,19 +39,19 @@ public class RoomController {
     }
 
     @GetMapping("")
-    public ResponseEntity<Response> getAllRooms(){
+    public ResponseEntity<Response> getAllRooms() {
         Response response = iRoomService.getAllRooms();
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @GetMapping("/{roomId}")
-    public ResponseEntity<Response> getRoomById(@PathVariable String roomId){
+    public ResponseEntity<Response> getRoomById(@PathVariable String roomId) {
         Response response = iRoomService.getRoomById(roomId);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @GetMapping("/available")
-    public ResponseEntity<Response> getAvailableRooms(){
+    public ResponseEntity<Response> getAvailableRooms() {
         Response response = iRoomService.getAllAvailableRooms();
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
@@ -61,7 +61,7 @@ public class RoomController {
             @RequestParam(name = "checkInTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime checkInTime,
             @RequestParam(name = "checkOutTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime checkOutTime,
             @RequestParam(name = "type", required = false) RoomType type
-    ){
+    ) {
         Response response = iRoomService.getAvailableRoomsByDateAndType(checkInTime, checkOutTime, type);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
@@ -70,19 +70,28 @@ public class RoomController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'admin')")
     public ResponseEntity<Response> updateRoom(
             @PathVariable String roomId,
-            @RequestParam(name = "photo",required = false) MultipartFile photo,
+            @RequestParam(name = "photo", required = false) MultipartFile photo,
             @RequestParam(name = "price", required = false) BigDecimal price,
-            @RequestParam(name = "type",  required = false) RoomType  type,
+            @RequestParam(name = "type", required = false) RoomType type,
             @RequestParam(name = "description", required = false) String description
-    ){
+    ) {
         Response response = iRoomService.updateRoom(roomId, photo, type, price, description);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @DeleteMapping("/{roomId}")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'admin')")
-    public ResponseEntity<Response> removeRoom(@PathVariable String roomId){
+    public ResponseEntity<Response> removeRoom(@PathVariable String roomId) {
         Response response = iRoomService.removeRoom(roomId);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
+
+
+    @GetMapping("/types")
+    public ResponseEntity<Response> getRoomTypes() {
+        Response response = new Response();
+        response.setRoomTypes(RoomType.values());
+        return ResponseEntity.status(200).body(response);
+    }
+
 }

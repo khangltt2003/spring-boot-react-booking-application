@@ -1,5 +1,6 @@
 package com.dylan.Booking.dto;
 
+import com.dylan.Booking.enums.RoomType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
@@ -23,6 +24,8 @@ public class Response {
     private List<BookingDTO> bookings;
     private List<RoomDTO> rooms;
     private String userId;
+
+    private RoomType[] roomTypes;
 
     private Map<String, String> errors;
 }
